@@ -1,7 +1,7 @@
 const { UsuarioModel } = require('./bd');
 
 module.exports = {
-    novo: async (nome, email, senha) => {
-        return await UsuarioModel.create({nome: nome, email: email, senha: senha });
+    novo: async (usuario, email, senha, privilegios) => {
+        return await UsuarioModel.create({usuario: usuario, email: email, senha: senha, privilegios: privilegios });
     }
 }

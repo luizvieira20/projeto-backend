@@ -1,9 +1,8 @@
 const { Sequelize, DataTypes} = require('sequelize');
+require("dotenv").config();
 
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: './database.sqlite'
-})
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER,
+process.env.DB_PASSWORD, {host: "127.0.0.1", port: "50889", dialect: "mssql"})
 
 const UsuarioModel = sequelize.define('Usuários', {
     id: {
@@ -11,7 +10,7 @@ const UsuarioModel = sequelize.define('Usuários', {
         autoIncrement: true,
         primaryKey: true
     },
-    nome: {
+    usuario: {
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -21,6 +20,10 @@ const UsuarioModel = sequelize.define('Usuários', {
     },
     senha: {
         type: DataTypes.STRING,
+        allowNull: false
+    },
+    privilegios: {
+        type: DataTypes.BOOLEAN,
         allowNull: false
     }
 });
