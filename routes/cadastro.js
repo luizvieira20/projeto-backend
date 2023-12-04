@@ -10,7 +10,7 @@ router.post('/cadastro', async (req, res) => {
       const { usuario, email, senha } = req.body;
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
-      if (usuario.lenght || email.length === 0 || senha.length === 0) res.json('Erro. Por favor, preencha todos os campos.');
+      if (usuario.lenght === 0 || email.length === 0 || senha.length === 0) res.json('Erro. Por favor, preencha todos os campos.');
       else if (emailRegex.test(email) === false) res.json('Erro. Digite um e-mail válido');
 
       const existente = await UsuarioService.verificarEmail(email);

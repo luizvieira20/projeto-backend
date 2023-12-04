@@ -28,6 +28,9 @@ app.use('/', cadastroRouter);
 var docsRouter = require('./routes/docs');
 app.use('/', docsRouter);
 
+var adminRouter = require('./routes/admin');
+app.use('/', adminRouter);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

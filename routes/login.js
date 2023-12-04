@@ -30,40 +30,4 @@ router.post('/login', async(req, res) => {
   }else res.status(403).json({msg: "Usuário não encontrado"});
 });
 
-const verificaTokenJWT = async(token) => {
-  try{
-    const verificado = jwt.verify(token, process.env.SECRET);
-    const user = await UsuarioService.verificarEmail(verificado.email);
-    return user.dataValues.privilegios; 
-  }catch (error) {
-    return null;
-  }
-}
-
-router.delete('/login/:id', async (req, res) => {
-  const token = req.headers.authorization.split(' ')[1];
-  const conta = await verificaTokenJWT(token);
-  console.log(conta);
-  if(conta != null){
-      if(conta == true){
-        const userId = await UsuarioService.verificarId(req.params.id);
-
-        if(userId){
-          if(userId.privilegios == 0){
-            await userId.destroy();
-            res.json({msg: 'Usuário excluído com sucesso'});
-          }else{
-            res.status(403).json({msg: "Erro, impossível apagar outro usuário administrador"});
-          }
-        }else{
-          res.status(403).json({msg: "Erro, usuário inexistente!"});
-        }
-      }else{
-        res.status(403).json({msg: "Erro, permissão negada!"});
-      }
-  }else {
-    res.status(403).json({msg: "Erro, token inválido!"});
-  }
-});
-
 module.exports = router;
