@@ -16,8 +16,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var postRouter = require('./routes/post');
-app.use('/api/', postRouter);
+var loginRouter = require('./routes/login');
+app.use('/', loginRouter);
+
+var installRouter = require('./routes/install');
+app.use('/', installRouter);
+
+var cadastroRouter = require('./routes/cadastro');
+app.use('/', cadastroRouter);
+
+var docsRouter = require('./routes/docs');
+app.use('/', docsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
