@@ -55,7 +55,7 @@ const UsuarioService = require('../Model/Usuarios');
       if(conta != null){
         if(conta == true){
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
-          if (usuario.lenght === 0 || email.length === 0 || senha.length === 0){
+          if (usuario === null || email === null || senha === null){
             res.json('Erro. Por favor, preencha todos os campos.');
           }else if (emailRegex.test(email) === false) res.json('Erro. Digite um e-mail válido');
 
@@ -87,7 +87,7 @@ router.put('/admin/alterar/:id', async (req, res) => {
     const { usuario, email, senha } = req.body;
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
-    if(usuario.lenght === 0 || email.length === 0 || senha.length === 0){
+    if(usuario === null || email === null || senha === null){
       res.json({msg: 'Erro. Por favor, preencha todos os campos.'});
     }else if (emailRegex.test(email) === false) res.json({msg: 'Erro. Digite um e-mail válido'});
 
@@ -96,19 +96,19 @@ router.put('/admin/alterar/:id', async (req, res) => {
         const userId = await UsuarioService.verificarId(req.params.id);
 
         if(userId){
-            await userId.update(
-              {
-                usuario: usuario,
-                email: email,
-                senha: senha
-              },
-              {
-                where: {
-                  id: req.params.id
-                }
+          await userId.update(
+            {
+              usuario: usuario,
+              email: email,
+              senha: senha
+            },
+            {
+              where: {
+                id: req.params.id
               }
-            );
-            res.json({msg: 'Dados do usuário alterados com sucesso'});
+            }
+          );
+          res.json({msg: 'Dados do usuário alterados com sucesso'});
         }else{
           res.status(403).json({msg: "Erro, usuário inexistente!"});
         }

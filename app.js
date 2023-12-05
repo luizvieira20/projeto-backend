@@ -31,6 +31,9 @@ app.use('/', docsRouter);
 var adminRouter = require('./routes/admin');
 app.use('/', adminRouter);
 
+var userRouter = require('./routes/user');
+app.use('/', userRouter);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

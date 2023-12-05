@@ -10,7 +10,7 @@ router.post('/login', async(req, res) => {
   const { email, senha } = req.body;
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
-  if (email.length === 0 || senha.length === 0) res.json('Erro. Por favor, preencha todos os campos.');
+  if (email === null || senha === null) res.json('Erro. Por favor, preencha todos os campos.');
   else if (emailRegex.test(email) === false) res.json('Erro. Digite um e-mail válido');
 
   const user = await UsuarioService.verificarEmail(email);
