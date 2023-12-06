@@ -3,7 +3,7 @@ var router = express.Router();
 const jwt = require('jsonwebtoken');
 
 require("dotenv").config();
-const UsuarioService = require('../Model/Usuarios');
+const UsuarioService = require('../model/Usuarios');
 
 // Login
 router.post('/login', async(req, res) => {

@@ -1,4 +1,29 @@
-const { UsuarioModel } = require('./bd');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../helpers/bd');
+
+const UsuarioModel = sequelize.define('Usuários', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    usuario: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    senha: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    privilegios: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    }
+});
 
 module.exports = {
     novo: async (usuario, email, senha, privilegios) => {
@@ -9,5 +34,7 @@ module.exports = {
     },
     verificarId: async (id) => {
         return await UsuarioModel.findOne({where: {id: id}});
-    }
+    },
+
+    UsuarioModel: UsuarioModel
 }

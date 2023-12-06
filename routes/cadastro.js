@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const UsuarioService = require('../Model/Usuarios');
+const UsuarioService = require('../model/Usuarios');
 
 // Cadastro
 router.post('/cadastro', async (req, res) => {

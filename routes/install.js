@@ -1,8 +1,8 @@
-const {sequelize} = require("../Model/bd");
+const {sequelize} = require("../helpers/bd");
 var express = require('express');
 var router = express.Router();
 
-const UsuarioService = require('../Model/Usuarios');
+const UsuarioService = require('../model/Usuarios');
 
 // Instalador
 router.get('/install', async function(req, res, next) {
