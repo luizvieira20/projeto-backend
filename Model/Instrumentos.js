@@ -27,8 +27,11 @@ InstrumentosModel.belongsTo(Categorias.Model, {
 Categorias.Model.hasMany(InstrumentosModel, {foreignKey: 'categoria'})
 
 module.exports = {
-    listar: async function() {
-        const Instrumentos = await InstrumentosModel.findAll({ include: Categorias.Model })
+    listar: async function(paginaAtual, itensPorPagina) {
+        const Instrumentos = await InstrumentosModel.findAndCountAll({
+            limit: itensPorPagina,
+            offset: (paginaAtual - 1) * itensPorPagina,
+            include: Categorias.Model })
         return Instrumentos;
     },
     listarPorId: async function(id) {
@@ -46,17 +49,6 @@ module.exports = {
             categoria = obj.id
         }
         return await InstrumentosModel.create({categoria: categoria, marca: marca, modelo: modelo });
-    },
-    atualizar: async function(id, obj) {
-        
-        let instrumento = await InstrumentosModel.findByPk(id)
-        if (!instrumento) {
-            return false
-        }
-        
-        Object.keys(obj).forEach(key => instrumento[key] = obj[key])
-        await instrumento.save()
-        return instrumento
     },
     deletar: async function(id) {
         const instrumento = await InstrumentosModel.findByPk(id)

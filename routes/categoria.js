@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 require("dotenv").config();
 const UsuarioService = require('../model/Usuarios');
 const CategoriaService = require('../model/Categorias');
+const InstrumentosService = require('../model/Instrumentos');
 
 // Verificar Token
 
@@ -27,8 +28,15 @@ const CategoriaService = require('../model/Categorias');
         const categId = await CategoriaService.getById(req.params.id);
   
         if(categId){
-            await CategoriaService.deletar(req.params.id);
-            res.json({msg: 'Categoria excluída com sucesso'});
+          const inst = await InstrumentosService.listarPorId(req.params.id);
+          console.log(inst)
+
+          for (let i = 0; i < inst.length; i++) {
+            await InstrumentosService.deletar(inst[i].id)
+          }
+
+          await CategoriaService.deletar(req.params.id);
+          res.json({msg: 'Categoria excluída com sucesso'});
         }else{
             res.status(403).json({msg: "Erro, categoria inexistente!"});
         }
@@ -68,8 +76,8 @@ router.post('/categoria/cadastro', async (req, res) => {
 
   // Listar Categorias
 
-router.get("/categoria/listar", async (req, res) => {
-    await CategoriaService.listar().then((categorias) => {
+router.get("/categoria/listar/pagina:id", async (req, res) => {
+    await CategoriaService.listar(req.params.id, 5).then((categorias) => {
         res.json({categorias})
     })
 })

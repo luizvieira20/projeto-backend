@@ -17,17 +17,16 @@ const CategoriasModel = sequelize.define('Categorias',
 )
 
 module.exports = {
-    listar: async function() {
-        const Categorias = await CategoriasModel.findAll()
+    listar: async function(paginaAtual, itensPorPagina) {
+
+        const Categorias = await CategoriasModel.findAndCountAll({
+            limit: itensPorPagina,
+            offset: (paginaAtual - 1) * itensPorPagina
+        })
         return Categorias;
     },
     novo: async (categoria) => {
         return await CategoriasModel.create({categoria: categoria });
-    },
-    atualizar: async function(id, categoria) {
-        return await CategoriasModel.update({categoria: categoria}, {
-            where: { id: id }
-        })
     },
     deletar: async function(id) {
         return await CategoriasModel.destroy({where: { id: id }})

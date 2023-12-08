@@ -61,8 +61,8 @@ router.post('/instrumentos/cadastro', async (req, res) => {
 
   // Listar Instrumentos
 
-router.get("/instrumentos/listar", async (req, res) => {
-    await InstrumentosService.listar().then((instrumentos) => {
+router.get("/instrumentos/listar/pagina:id", async (req, res) => {
+    await InstrumentosService.listar(req.params.id, 5).then((instrumentos) => {
         res.json({instrumentos})
     })
 })
