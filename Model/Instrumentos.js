@@ -31,6 +31,9 @@ module.exports = {
         const Instrumentos = await InstrumentosModel.findAll({ include: Categorias.Model })
         return Instrumentos;
     },
+    listarPorId: async function(id) {
+        return await InstrumentosModel.findAll({where: {categoria: id}});
+    },
     novo: async (categoria, marca, modelo) => {
         if (categoria instanceof Categorias.Model) {
             categoria = categoria.id

@@ -67,4 +67,12 @@ router.get("/instrumentos/listar", async (req, res) => {
     })
 })
 
+ // Listar Instrumentos por Id
+
+ router.get("/instrumentos/listar-por-categoria/:id", async (req, res) => {
+    await InstrumentosService.listarPorId(req.params.id).then((instrumentos) => {
+        res.json({instrumentos})
+    })
+})
+
   module.exports = router;
