@@ -20,6 +20,7 @@ const UsuarioService = require('../model/Usuarios');
   // Deletar usuário
   
   router.delete('/admin/deletar/:id', async (req, res) => {
+  try{
     const token = req.headers.authorization.split(' ')[1];
     const conta = await verificaTokenJWT(token);
     if(conta != null){
@@ -42,7 +43,10 @@ const UsuarioService = require('../model/Usuarios');
     }else{
       res.status(403).json({msg: "Erro, token inválido!"});
     }
-  });
+  }catch (error) {
+    res.status(400).json({mensagem: "Erro ao apagar usuário, faça login.", error});
+  }
+});
 
   // Criar outro administrador
   

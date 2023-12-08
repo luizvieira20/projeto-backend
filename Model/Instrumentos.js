@@ -4,8 +4,19 @@ const Categorias = require('./Categorias');
 
 const InstrumentosModel = sequelize.define('Instrumento', 
     {
-        marca: DataTypes.STRING,
-        modelo: DataTypes.STRING
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
+        marca: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        modelo: {
+            type: DataTypes.STRING,
+            allowNull: false
+        }
     }
 )
 
@@ -13,14 +24,14 @@ InstrumentosModel.belongsTo(Categorias.Model, {
     foreignKey: 'categoria'
 })
 
-Categorias.Model.hasMany(InstrumentosModel, {foreignKey: 'instrumento'})
+Categorias.Model.hasMany(InstrumentosModel, {foreignKey: 'categoria'})
 
 module.exports = {
-    list: async function() {
+    listar: async function() {
         const Instrumentos = await InstrumentosModel.findAll({ include: Categorias.Model })
         return Instrumentos;
     },
-    save: async function(categoria, marca, modelo) {
+    novo: async (categoria, marca, modelo) => {
         if (categoria instanceof Categorias.Model) {
             categoria = categoria.id
         } else if (typeof categoria === 'string') {
@@ -31,15 +42,9 @@ module.exports = {
             }
             categoria = obj.id
         }
-
-        const instrumento = await InstrumentosModel.create({
-            categoria: categoria,
-            marca: marca,
-            modelo: modelo
-        })
-        return instrumento;
+        return await InstrumentosModel.create({categoria: categoria, marca: marca, modelo: modelo });
     },
-    update: async function(id, obj) {
+    atualizar: async function(id, obj) {
         
         let instrumento = await InstrumentosModel.findByPk(id)
         if (!instrumento) {
@@ -50,7 +55,7 @@ module.exports = {
         await instrumento.save()
         return instrumento
     },
-    delete: async function(id) {
+    deletar: async function(id) {
         const instrumento = await InstrumentosModel.findByPk(id)
         return instrumento.destroy()
     },

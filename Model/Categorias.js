@@ -6,34 +6,30 @@ const CategoriasModel = sequelize.define('Categorias',
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
+            onDelete: 'CASCADE'
         },
         categoria: {
             type: DataTypes.STRING,
-            allowNull: false
+            onDelete: 'CASCADE'
         }
     }
 )
 
 module.exports = {
-    list: async function() {
+    listar: async function() {
         const Categorias = await CategoriasModel.findAll()
         return Categorias;
     },
-    save: async function(categoria) {
-        const categoria = await CategoriasModel.create({
-            categoria: categoria
-        })
-        
-        return categoria
+    novo: async (categoria) => {
+        return await CategoriasModel.create({categoria: categoria });
     },
-    update: async function(id, categoria) {
+    atualizar: async function(id, categoria) {
         return await CategoriasModel.update({categoria: categoria}, {
             where: { id: id }
         })
     },
-    delete: async function(id) {
-        //Precisa fazer algo para os livros que este autor possui
+    deletar: async function(id) {
         return await CategoriasModel.destroy({where: { id: id }})
     },
     getById: async function(id) {

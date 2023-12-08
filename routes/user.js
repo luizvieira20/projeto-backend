@@ -17,7 +17,7 @@ const verificaTokenJWT = async(token) => {
     }
 }
 
-// Alteração de dados
+// Alteração de dados do usuário
 
   router.put('/user/alterar/', async (req, res) => {
     try{

@@ -34,6 +34,13 @@ app.use('/', adminRouter);
 var userRouter = require('./routes/user');
 app.use('/', userRouter);
 
+var categoriaRouter = require('./routes/categoria');
+app.use('/', categoriaRouter);
+
+var instrumentoRouter = require('./routes/instrumentos');
+app.use('/', instrumentoRouter);
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
